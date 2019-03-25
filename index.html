@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <Title>Fetch</Title>
+</head>
+
+<body>
+    <input type="text" id="cep">
+    <button id="pesquisar">Pesquisar</button>
+    <hr>
+    <label>Endereço:</label><input type="text" id="logradouro">
+    <br>
+    <label>Complemento:</label><input type="text" id="complemento">
+    <br>
+    <label>Bairro:</label><input type="text" id="bairro">
+    <br>
+    <label>Cidade:</label><input type="text" id="cidade">
+    <br>
+    <label>Estado:</label><input type="text" id="estado">
+    <script>
+        const btnPesquisar = document.querySelector('#pesquisar');
+        const inputCep = document.querySelector('#cep');
+
+        function atribuirCampos(data) {
+
+            const logradouro = document.querySelector('#logradouro');
+            const complemento = document.querySelector('#complemento');
+            const bairro = document.querySelector('#bairro');
+            const cidade = document.querySelector('#cidade');
+            const estado = document.querySelector('#estado');
+
+            logradouro.value = data.logradouro;
+            complemento.valorDoCep = data.complemento;
+            bairro.value = data.bairro;
+            cidade.value = data.localidade;
+            estado.value = data.uf;
+        }
+
+
+        //btnPesquisar.onclick = atribuirCampos;
+        btnPesquisar.addEventListener("click", () => {
+
+
+            const valorDoCep = inputCep.value;
+            const url = `https://viacep.com.br/ws/${valorDoCep}/json/`;
+            fetch(url)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.erro) {
+                        alert('O Cep digitado está invalido');
+                        return;
+                    }
+                    atribuirCampos(data);
+                })
+        })
+    </script>
+</body>
+
+</html>
